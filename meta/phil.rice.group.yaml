@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: phil-rice
+  description: "Phil Rice's team."
+spec:
+  type: team
+  profile:
+    displayName: "Phil Rice's Team"
+  children: []

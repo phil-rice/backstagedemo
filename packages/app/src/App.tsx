@@ -61,7 +61,7 @@ const routes = (
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
-      element={<CatalogEntityPage />}
+      element={<CatalogEntityPage></CatalogEntityPage>}
     >
       {entityPage}
     </Route>

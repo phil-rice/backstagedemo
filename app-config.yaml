@@ -3,7 +3,11 @@ app:
   baseUrl: http://localhost:3000
 
 organization:
-  name: My Company
+  name: Xingyi
+
+logging:
+  levels:
+    root: 'debug'
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
@@ -12,6 +16,11 @@ backend:
   # auth:
   #   keys:
   #     - secret: ${BACKEND_SECRET}
+  reading:
+     allow:
+         - host: raw.githubusercontent.com
+         - host: github.com
+         - host: api.github.com
   baseUrl: http://localhost:7007
   listen:
     port: 7007
@@ -38,7 +47,7 @@ integrations:
       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
       # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
       token: ${GITHUB_TOKEN}
-    ### Example for how to add your GitHub Enterprise instance using the API:
+     ### Example for how to add your GitHub Enterprise instance using the API:
     # - host: ghe.example.net
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
@@ -58,7 +67,7 @@ proxy:
 techdocs:
   builder: 'local' # Alternatives - 'external'
   generator:
-    runIn: 'docker' # Alternatives - 'local'
+    runIn: 'local' # Alternatives - 'local' or 'docker'
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
@@ -70,34 +79,14 @@ scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
-  import:
-    entityFilename: catalog-info.yaml
-    pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [Component, System, API, Resource, Location, Group]
   locations:
-    # Local example data, file locations are relative to the backend process, typically `packages/backend`
+    - type: url
+      target: https://raw.githubusercontent.com/phil-rice/javaoptics/master/catalog-info.yaml
+    - type: url
+      target: https://raw.githubusercontent.com/phil-rice/Rest2/master/catalog-info.yaml
+    - type: url
+      target: https://raw.githubusercontent.com/laoban-dev/laoban/master/code/catalog-info.yaml
     - type: file
-      target: ../../examples/entities.yaml
-
-    # Local example template
-    - type: file
-      target: ../../examples/template/template.yaml
-      rules:
-        - allow: [Template]
-
-    # Local example organizational data
-    - type: file
-      target: ../../examples/org.yaml
-      rules:
-        - allow: [User, Group]
-
-    ## Uncomment these lines to add more example data
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
-
-    ## Uncomment these lines to add an example org
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
-    #   rules:
-    #     - allow: [User, Group]
+      target: ../../meta/phil.rice.group.yaml
